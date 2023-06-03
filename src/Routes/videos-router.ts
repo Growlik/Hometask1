@@ -110,13 +110,17 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     let canBeDownloaded = req.body.canBeDownloaded
     let title = req.body.title
     let author = req.body.author
+    const errors = []
     if (!author || typeof author !== 'string' || !author.trim()) {
-        res.send({
-            errorsMessages: [{
-                "message": "Incorrect format",
-                "field": "author"
-            }]
-        })
+       errors.push({
+           "message": "Incorrect format",
+           "field": "author"
+       })
+    }
+
+    if (errors.length) {
+        res.status(400).send({errorsMessages: errors}
+        )
     }
     if (!title || typeof title !== 'string' || !title.trim()) {
         res.send({
@@ -135,6 +139,8 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
             }]
         })
     }
+
+
     if(typeof minAgeRestriction !== 'number' || typeof minAgeRestriction !== 'object') {
         res.send({
             errorsMessages: [{
