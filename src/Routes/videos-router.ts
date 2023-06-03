@@ -62,9 +62,19 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
 
 // Update existing video by id with InputModel
 videosRouter.put('/:id', (req: Request, res: Response) => {
+    let title = req.body.title
+    if (!title || typeof title !== 'string' || !title.trim()) {
+        res.status(400).send({
+            errorsMessages: [{
+                "message": "Incorrect title",
+                "field": "title"
+            }]
+        })
+        return;
+    }
     let video = videos.find(v => v.id === +req.params.id)
     if (video) {
-        video.title = req.body.title
+        video.title = title
         res.status(204).send(video)
     } else {
         res.send(404)
