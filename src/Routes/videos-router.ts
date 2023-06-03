@@ -55,7 +55,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     let video = videos.find(v => v.id === +req.params.id)
     if (video) {
         video.title = req.body.title
-        res.send(videos)
+        res.status(204).send(video)
     } else {
         res.send(404)
     }

@@ -8,7 +8,7 @@ describe('/hometask', () => {
 
     it('should return 204', async () => {
         await request(app)
-            .delete('/testing')
+            .delete('/testing/all-data')
             .expect(204)
     })
 
@@ -26,7 +26,7 @@ describe('/hometask', () => {
 
     it('should return video by id', async () => {
         await request(app)
-            .get('/videos/:id')
+            .get('/videos/2')
             .expect(200)
     })
 })
