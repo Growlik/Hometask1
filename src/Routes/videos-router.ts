@@ -32,9 +32,19 @@ videosRouter.get('/', (req: Request, res: Response) => {
 
 // Create new video
 videosRouter.post ('/', (req: Request, res: Response) => {
+    let title = req.body.title
+    if (!title || typeof title !== 'string' || !title.trim()) {
+        res.status(400).send({
+            errorsMessages: [{
+                "message": "Incorrect title",
+                "field": "title"
+            }]
+        })
+        return;
+    }
     const newVideo = {
         id: +(new Date()),
-        title: req.body.title
+        title: title
     }
     videos.push(newVideo)
     res.status(201).send(newVideo)
