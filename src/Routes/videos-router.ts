@@ -4,26 +4,30 @@ const videos =[
     {
         id: 1,
         title: "First video",
+        author: "First author",
         canBeDownloaded: true,
-        minAgeRestriction: 22
+        minAgeRestriction: 1
     },
     {
         id: 2,
         title: "Second video",
+        author: "Second author",
         canBeDownloaded: false,
-        minAgeRestriction: 23
+        minAgeRestriction: 2
     },
     {
         id: 3,
         title: "Third video",
+        author: "Third author",
         canBeDownloaded: true,
-        minAgeRestriction: 24
+        minAgeRestriction: 3
     },
     {
         id: 4,
         title: "Fourth video",
+        author: "Fourth author",
         canBeDownloaded: false,
-        minAgeRestriction: 25
+        minAgeRestriction: 4
     }
 ]
 
@@ -73,17 +77,41 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     let minAgeRestriction = req.body.minAgeRestriction
     let canBeDownloaded = req.body.canBeDownloaded
     let title = req.body.title
-    if (!title || typeof title !== 'string' || !title.trim() ||
-        !canBeDownloaded || typeof canBeDownloaded !== 'boolean' ||
-        !minAgeRestriction || typeof minAgeRestriction !== 'number') {
+    let author = req.body.title
+    if (!author || typeof author !== 'string' || !author.trim()) {
+        res.status(400).send({
+            errorsMessages: [{
+                "message": "Incorrect format",
+                "field": "author"
+            }]
+        })
+        return;
+    }
+    if (!title || typeof title !== 'string' || !title.trim()) {
         res.status(400).send({
          errorsMessages:
-             [{"message": "Incorrect title",
-                 "field": "title" },
-             {"message": "Incorrect format",
-                 "field": "canBeDownloaded" },
-                 {"message": "Incorrect format",
-                 "field": "minAgeRestriction"}]
+             [{
+                 "message": "Incorrect format",
+                 "field": "title"
+             }]
+        })
+        return;
+    }
+    if(typeof canBeDownloaded !== 'boolean') {
+        res.status(400).send({
+            errorsMessages: [{
+                "message": "Incorrect format",
+                    "field": "canBeDownloaded"
+            }]
+        })
+        return;
+    }
+    if(typeof minAgeRestriction !== 'number') {
+        res.status(400).send({
+            errorsMessages: [{
+                "message": "Incorrect format",
+                "field": "minAgeRestriction"
+            }]
         })
         return;
     }
