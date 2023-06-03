@@ -95,7 +95,6 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
                  "field": "title"
              }]
         })
-        return;
     }
     if(typeof canBeDownloaded !== 'boolean') {
         res.status(400).send({
@@ -104,7 +103,6 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
                     "field": "canBeDownloaded"
             }]
         })
-        return;
     }
     if(typeof minAgeRestriction !== 'number') {
         res.status(400).send({
