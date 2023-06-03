@@ -79,11 +79,11 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         res.status(400).send({
          errorsMessages:
              [{"message": "Incorrect title",
-                 "field": title },
+                 "field": "title" },
              {"message": "Incorrect format",
-                 "field": canBeDownloaded },
+                 "field": "canBeDownloaded" },
                  {"message": "Incorrect format",
-                 "field": minAgeRestriction}]
+                 "field": "minAgeRestriction"}]
         })
         return;
     }
