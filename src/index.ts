@@ -9,8 +9,9 @@ app.use(parserMiddleware)
 
 const port = process.env.PORT || 5000
 
-app.use('/videos', videosRouter)
 app.use('/testing', testingRouter)
+app.use('/videos', videosRouter)
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
