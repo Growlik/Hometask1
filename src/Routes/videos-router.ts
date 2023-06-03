@@ -77,7 +77,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     let minAgeRestriction = req.body.minAgeRestriction
     let canBeDownloaded = req.body.canBeDownloaded
     let title = req.body.title
-    let author = req.body.title
+    let author = req.body.author
     if (!author || typeof author !== 'string' || !author.trim()) {
         res.status(400).send({
             errorsMessages: [{
