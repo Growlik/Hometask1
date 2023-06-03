@@ -1,4 +1,4 @@
-import express, {query, Request, Response} from 'express'
+import express from 'express'
 import bodyParser from 'body-parser'
 import {videosRouter} from "./Routes/videos-router";
 import {testingRouter} from "./Routes/testing-router";
