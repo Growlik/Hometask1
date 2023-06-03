@@ -3,19 +3,23 @@ import {Request, Response, Router} from 'express'
 const videos =[
     {
         id: 1,
-        title: "First video"
+        title: "First video",
+        canBeDownloaded: true
     },
     {
         id: 2,
-        title: "Second video"
+        title: "Second video",
+        canBeDownloaded: false
     },
     {
         id: 3,
-        title: "Third video"
+        title: "Third video",
+        canBeDownloaded: true
     },
     {
         id: 4,
-        title: "Fourth video"
+        title: "Fourth video",
+        canBeDownloaded: false
     }
 ]
 
@@ -62,13 +66,15 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
 
 // Update existing video by id with InputModel
 videosRouter.put('/:id', (req: Request, res: Response) => {
+    let canBeDownloaded = req.body.canBeDownloaded
     let title = req.body.title
-    if (!title || typeof title !== 'string' || !title.trim()) {
+    if (!title || typeof title !== 'string' || !title.trim() || !canBeDownloaded || typeof canBeDownloaded !== 'boolean') {
         res.status(400).send({
-         errorsMessages: [
-             {message: Any<String>, field: "title" },
-             { message: Any<String>, field: "canBeDownloaded" }
-         ]
+         errorsMessages:
+             [{"message": "Incorrect title",
+                 "field": "title" },
+             {"message": "Incorrect format",
+                 "field": "canBeDownloaded" }]
         })
         return;
     }
