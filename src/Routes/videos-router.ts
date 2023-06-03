@@ -65,10 +65,10 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     let title = req.body.title
     if (!title || typeof title !== 'string' || !title.trim()) {
         res.status(400).send({
-            errorsMessages: [{
-                "message": "Incorrect title",
-                "field": "title"
-            }]
+         errorsMessages: [
+             {message: Any<String>, field: "title" },
+             { message: Any<String>, field: "canBeDownloaded" }
+         ]
         })
         return;
     }
