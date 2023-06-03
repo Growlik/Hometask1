@@ -1,6 +1,6 @@
 import {Request, Response, Router} from 'express'
 
-export const videos =[
+export let videos =[
     {
         id: 1,
         title: "First video",
