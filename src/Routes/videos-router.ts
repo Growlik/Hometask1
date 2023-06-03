@@ -4,22 +4,26 @@ const videos =[
     {
         id: 1,
         title: "First video",
-        canBeDownloaded: true
+        canBeDownloaded: true,
+        minAgeRestriction: 22
     },
     {
         id: 2,
         title: "Second video",
-        canBeDownloaded: false
+        canBeDownloaded: false,
+        minAgeRestriction: 23
     },
     {
         id: 3,
         title: "Third video",
-        canBeDownloaded: true
+        canBeDownloaded: true,
+        minAgeRestriction: 24
     },
     {
         id: 4,
         title: "Fourth video",
-        canBeDownloaded: false
+        canBeDownloaded: false,
+        minAgeRestriction: 25
     }
 ]
 
@@ -66,15 +70,20 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
 
 // Update existing video by id with InputModel
 videosRouter.put('/:id', (req: Request, res: Response) => {
+    let minAgeRestriction = req.body.minAgeRestriction
     let canBeDownloaded = req.body.canBeDownloaded
     let title = req.body.title
-    if (!title || typeof title !== 'string' || !title.trim() || !canBeDownloaded || typeof canBeDownloaded !== 'boolean') {
+    if (!title || typeof title !== 'string' || !title.trim() ||
+        !canBeDownloaded || typeof canBeDownloaded !== 'boolean' ||
+        !minAgeRestriction || typeof minAgeRestriction !== 'number') {
         res.status(400).send({
          errorsMessages:
              [{"message": "Incorrect title",
-                 "field": "title" },
+                 "field": title },
              {"message": "Incorrect format",
-                 "field": "canBeDownloaded" }]
+                 "field": canBeDownloaded },
+                 {"message": "Incorrect format",
+                 "field": minAgeRestriction}]
         })
         return;
     }
