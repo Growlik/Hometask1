@@ -1,55 +1,15 @@
 import {Request, Response, Router} from 'express'
 
-export const videos =[
-    {
-        id: 1,
-        title: "First video",
-        author: "First author",
-        canBeDownloaded: true,
-        minAgeRestriction: 1,
-        createdAt: "2023-06-03T16:28:42.284Z",
-        publicationDate: "2023-06-03T16:28:42.284Z",
-        availableResolutions: [
-            "P144"
-        ]
-    },
-    {
-        id: 2,
-        title: "Second video",
-        author: "Second author",
-        canBeDownloaded: false,
-        minAgeRestriction: 2,
-        createdAt: "2023-06-03T16:28:42.284Z",
-        publicationDate: "2023-06-03T16:28:42.284Z",
-        availableResolutions: [
-            "P144", "P240"
-        ]
-    },
-    {
-        id: 3,
-        title: "Third video",
-        author: "Third author",
-        canBeDownloaded: true,
-        minAgeRestriction: 3,
-        createdAt: "2023-06-03T16:28:42.284Z",
-        publicationDate: "2023-06-03T16:28:42.284Z",
-        availableResolutions: [
-            "P144", "P240", "P360"
-        ]
-    },
-    {
-        id: 4,
-        title: "Fourth video",
-        author: "Fourth author",
-        canBeDownloaded: false,
-        minAgeRestriction: 4,
-        createdAt: "2023-06-03T16:28:42.284Z",
-        publicationDate: "2023-06-03T16:28:42.284Z",
-        availableResolutions: [
-            "P144", "P240", "P360", "P480"
-        ]
-    }
-]
+export let videos: {
+    createdAt: string;
+    minAgeRestriction: number;
+    author: string;
+    availableResolutions: string[];
+    id: number;
+    title: string;
+    publicationDate: string;
+    canBeDownloaded: boolean
+}[];
 
 export const videosRouter = Router({})
 
