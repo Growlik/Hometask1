@@ -79,16 +79,15 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     let title = req.body.title
     let author = req.body.author
     if (!author || typeof author !== 'string' || !author.trim()) {
-        res.status(400).send({
+        res.send({
             errorsMessages: [{
                 "message": "Incorrect format",
                 "field": "author"
             }]
         })
-        return;
     }
     if (!title || typeof title !== 'string' || !title.trim()) {
-        res.status(400).send({
+        res.send({
          errorsMessages:
              [{
                  "message": "Incorrect format",
@@ -97,7 +96,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         })
     }
     if(typeof canBeDownloaded !== 'boolean') {
-        res.status(400).send({
+        res.send({
             errorsMessages: [{
                 "message": "Incorrect format",
                     "field": "canBeDownloaded"
@@ -105,7 +104,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         })
     }
     if(typeof minAgeRestriction !== 'number') {
-        res.status(400).send({
+        res.send({
             errorsMessages: [{
                 "message": "Incorrect format",
                 "field": "minAgeRestriction"
