@@ -1,5 +1,5 @@
 import {Request, Response, Router} from 'express'
-const videos =[
+let videos =[
     {
         id: 1,
         title: "First video"
@@ -22,6 +22,6 @@ export const testingRouter = Router({})
 
 //deleting all the videos
 testingRouter.delete('/', (req: Request, res: Response) => {
-    videos.length = 0
+    videos = []
     res.send(204)
 })
