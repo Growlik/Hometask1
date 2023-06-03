@@ -44,7 +44,10 @@ videosRouter.get('/', (req: Request, res: Response) => {
 
 // Create new video
 videosRouter.post ('/', (req: Request, res: Response) => {
+    let minAgeRestriction = req.body.minAgeRestriction
+    let canBeDownloaded = req.body.canBeDownloaded
     let title = req.body.title
+    let author = req.body.author
     if (!title || typeof title !== 'string' || !title.trim()) {
         res.status(400).send({
             errorsMessages: [{
@@ -56,7 +59,10 @@ videosRouter.post ('/', (req: Request, res: Response) => {
     }
     const newVideo = {
         id: +(new Date()),
-        title: title
+        title: title,
+        author: author,
+        canBeDownloaded: canBeDownloaded,
+        minAgeRestriction: minAgeRestriction
     }
     videos.push(newVideo)
     res.status(201).send(newVideo)
@@ -103,7 +109,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
             }]
         })
     }
-    if(typeof minAgeRestriction !== 'number') {
+    if(typeof minAgeRestriction !== 'number' || typeof minAgeRestriction !== 'object') {
         res.send({
             errorsMessages: [{
                 "message": "Incorrect format",
