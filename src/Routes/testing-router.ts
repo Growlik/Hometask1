@@ -21,7 +21,7 @@ let videos =[
 export const testingRouter = Router({})
 
 //deleting all the videos
-testingRouter.delete('/', (req: Request, res: Response) => {
+testingRouter.delete('/all-data', (req: Request, res: Response) => {
     videos = []
     res.send(204)
 })
