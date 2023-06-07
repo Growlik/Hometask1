@@ -174,7 +174,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
                 "field": "canBeDownloaded"
         })
     }
-    if(typeof minAgeRestriction !== 'number' || minAgeRestriction > 18 || minAgeRestriction < 0 || typeof minAgeRestriction !== null) {
+    if(typeof minAgeRestriction !== 'number' || minAgeRestriction > 18  || typeof minAgeRestriction !== null) {
         errors.push
         ({
             "message": "Incorrect format",
