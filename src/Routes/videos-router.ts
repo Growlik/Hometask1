@@ -26,7 +26,7 @@ export let videos: videoType[] =[
     {
         id: 1,
         title: "First video",
-        author: "First authorsw",
+        author: "First authors",
         canBeDownloaded: true,
         minAgeRestriction: 1,
         createdAt: "2023-06-03T16:28:42.284Z",
