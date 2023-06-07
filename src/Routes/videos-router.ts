@@ -97,36 +97,17 @@ videosRouter.post ('/', (req: Request, res: Response) => {
     let availableResolutions: availableResolution[] | null = req.body.availableResolutions
 
     const errors = []
-    if (!author || typeof author !== 'string' || !author.trim()) {
+    if (!author || typeof author !== 'string' || !author.trim() || author.length > 20) {
         errors.push({
             "message": "Incorrect format",
             "field": "author"
         })
     }
-    if (!title || typeof title !== 'string' || !title.trim()) {
+    if (!title || typeof title !== 'string' || !title.trim() || title.length > 40) {
         errors.push({
             "message": "Incorrect format",
             "field": "title"
         })
-    }
-    // if (typeof canBeDownloaded !== 'boolean') {
-    //     errors.push({
-    //         "message": "Incorrect format",
-    //         "field": "canBeDownloaded"
-    //     })
-    // }
-
-    // if(minAgeRestriction) {
-    //     if (minAgeRestriction > 0 && minAgeRestriction < 19) {
-    //         errors.push({
-    //             "message": "Incorrect format",
-    //             "field": "minAgeRestriction"
-    //         })
-    //     }
-    // }
-
-    if(availableResolutions) {
-        //[1, 15, P144]
     }
 
     if (errors.length > 0) {
@@ -173,13 +154,13 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     let publicationDate: string = req.body.publicationDate
     let availableResolutions: availableResolution[] | null = req.body.availableResolutions
     const errors = []
-    if (!author || typeof author !== 'string' || !author.trim()) {
+    if (!author || typeof author !== 'string' || !author.trim() || author.length > 20) {
        errors.push({
            "message": "Incorrect format",
            "field": "author"
        })
     }
-    if (!title || typeof title !== 'string' || !title.trim()) {
+    if (!title || typeof title !== 'string' || !title.trim() || title.length > 40) {
         errors.push
         ({
             "message": "Incorrect format",
@@ -193,7 +174,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
                 "field": "canBeDownloaded"
         })
     }
-    if(typeof minAgeRestriction !== 'number' || typeof minAgeRestriction !== 'object') {
+    if(typeof minAgeRestriction !== 'number' || minAgeRestriction > 18 || minAgeRestriction < 0 || typeof minAgeRestriction !== null) {
         errors.push
         ({
             "message": "Incorrect format",
