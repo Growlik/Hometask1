@@ -7,7 +7,7 @@ export const app = express()
 const parserMiddleware = express.json()
 app.use(parserMiddleware)
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5001
 
 app.use('/testing', testingRouter)
 app.use('/videos', videosRouter)

@@ -9,5 +9,5 @@ testingRouter.delete('/all-data', (req: Request, res: Response) => {
     while(videos.length > 0) {
         videos.pop();
     }
-    res.send(204)
+    res.sendStatus(204)
 })

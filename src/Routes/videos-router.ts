@@ -85,15 +85,10 @@ videosRouter.get('/', (req: Request, res: Response) => {
 })
 
 const validResolutions = Object.values(availableResolution) // ['P144', ...]
-
 // Create new video
 videosRouter.post ('/', (req: Request, res: Response) => {
-    //let minAgeRestriction: number | null = req.body.minAgeRestriction
-    //let canBeDownloaded: boolean = req.body.canBeDownloaded
     let title: string = req.body.title
     let author: string = req.body.author
-    //let createdAt:string = req.body.createdAt
-    //let publicationDate: string = req.body.publicationDate
     let availableResolutions: availableResolution[] | null = req.body.availableResolutions
 
     const errors = []
@@ -101,6 +96,12 @@ videosRouter.post ('/', (req: Request, res: Response) => {
         errors.push({
             "message": "Incorrect format",
             "field": "author"
+        })
+    }
+    if (!availableResolutions || availableResolutions.length > validResolutions.length || !availableResolutions.every((aR: any) => validResolutions.includes(aR))) {
+        errors.push({
+            "message": "Incorrect format",
+            "field": "availableResolutions"
         })
     }
     if (!title || typeof title !== 'string' || !title.trim() || title.length > 40) {
@@ -116,7 +117,7 @@ videosRouter.post ('/', (req: Request, res: Response) => {
     } else {
         const today = new Date()
         //publication date
-        const tomorrow = new Date(today.setDate(today.getDate()+1));
+        const tomorrow = new Date(new Date().setDate(today.getDate()+1));
         const newVideo = {
             id: +today,
             title: title,
@@ -146,13 +147,19 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
 
 // Update existing video by id with InputModel
 videosRouter.put('/:id', (req: Request, res: Response) => {
-    let minAgeRestriction: number | null = req.body.minAgeRestriction
+    let minAgeRestriction = req.body.minAgeRestriction
     let canBeDownloaded: boolean = req.body.canBeDownloaded
     let title: string = req.body.title
     let author: string = req.body.author
     let publicationDate: string = req.body.publicationDate
     let availableResolutions = req.body.availableResolutions
     const errors = []
+    if (!availableResolutions || availableResolutions.length > validResolutions.length || !availableResolutions.every((aR: any) => validResolutions.includes(aR))) {
+        errors.push({
+            "message": "Incorrect format",
+            "field": "availableResolutions"
+        })
+    }
     if (!author || typeof author !== 'string' || !author.trim() || author.length > 20) {
        errors.push({
            "message": "Incorrect format",
@@ -166,23 +173,30 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
             "field": "title"
         })
     }
-    if(typeof canBeDownloaded !== 'boolean') {
+    if(!canBeDownloaded || typeof canBeDownloaded !== 'boolean') {
         errors.push
         ({
                 "message": "Incorrect format",
                 "field": "canBeDownloaded"
         })
     }
-    if(typeof minAgeRestriction !== 'number' || typeof minAgeRestriction !== null) {
+    console.log(minAgeRestriction)
+    if(!minAgeRestriction || typeof minAgeRestriction !== 'number' || minAgeRestriction < 0 || minAgeRestriction > 18) {
         errors.push
         ({
             "message": "Incorrect format",
             "field": "minAgeRestriction"
         })
     }
+    if(!publicationDate || typeof publicationDate !== 'string') {
+        errors.push
+        ({
+            "message": "Incorrect format",
+            "field": "publicationDate"
+        })
+    }
     if (errors.length) {
-        res.status(400).send({errorsMessages: errors}
-        )
+        res.status(400).send({errorsMessages: errors})
     } else {
     let video = videos.find(v => v.id === +req.params.id)
     if (video) {
