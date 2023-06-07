@@ -96,6 +96,7 @@ videosRouter.post ('/', (req: Request, res: Response) => {
             "field": "minAgeRestriction"
         })
     }
+
     if (errors.length > 0) {
         const newVideo = {
             id: +(new Date()),
@@ -109,6 +110,8 @@ videosRouter.post ('/', (req: Request, res: Response) => {
         }
         videos.push(newVideo)
         res.status(201).send(newVideo)
+    } else {
+        res.status(400).send({errorsMessages: errors})
     }
 })
 
