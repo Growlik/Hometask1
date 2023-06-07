@@ -70,29 +70,49 @@ videosRouter.post ('/', (req: Request, res: Response) => {
     let author = req.body.author
     let createdAt = req.body.createdAt
     let publicationDate = req.body.publicationDate
-    let availableResolutions =req.body.availableResolutions
-    if (!title || typeof title !== 'string' || !title.trim()) {
-        res.status(400).send({
-            errorsMessages: [{
-                "message": "Incorrect title",
-                "field": "title"
-            }]
+    let availableResolutions = req.body.availableResolutions
+    const errors = []
+    if (!author || typeof author !== 'string' || !author.trim()) {
+        errors.push({
+            "message": "Incorrect format",
+            "field": "author"
         })
-        return;
     }
-    const newVideo = {
-        id: +(new Date()),
-        title: title,
-        author: author,
-        canBeDownloaded: canBeDownloaded,
-        minAgeRestriction: minAgeRestriction,
-        createdAt: createdAt,
-        publicationDate: publicationDate,
-        availableResolutions: availableResolutions
+    if (!title || typeof title !== 'string' || !title.trim()) {
+        errors.push({
+            "message": "Incorrect format",
+            "field": "title"
+        })
     }
-    videos.push(newVideo)
-    res.status(201).send(newVideo)
+    if (typeof canBeDownloaded !== 'boolean') {
+        errors.push({
+            "message": "Incorrect format",
+            "field": "canBeDownloaded"
+        })
+    }
+    if (minAgeRestriction > 0 && minAgeRestriction < 19) {
+        errors.push({
+            "message": "Incorrect format",
+            "field": "minAgeRestriction"
+        })
+    }
+    if (errors.length > 0) {
+        const newVideo = {
+            id: +(new Date()),
+            title: title,
+            author: author,
+            canBeDownloaded: canBeDownloaded,
+            minAgeRestriction: minAgeRestriction,
+            createdAt: createdAt,
+            publicationDate: publicationDate,
+            availableResolutions: availableResolutions
+        }
+        videos.push(newVideo)
+        res.status(201).send(newVideo)
+    }
 })
+
+
 
 // Return video by id
 videosRouter.get('/:id', (req: Request, res: Response) => {
@@ -161,7 +181,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
 
 // Delete video specified by id
 videosRouter.delete('/:id', (req: Request, res: Response) => {
-    for (let i =0; i < videos.length; i++){
+    for (let i = 0; i < videos.length; i++) {
         if (videos[i].id === +req.params.id) {
             videos.splice(i, 1);
             res.send(204)
@@ -170,12 +190,3 @@ videosRouter.delete('/:id', (req: Request, res: Response) => {
     }
     res.send(404)
 })
-
-// videosRouter.get('/', (req: Request, res: Response) => {
-//     if (req.query.title) {
-//         let searchString = req.query.title.toString()
-//         res.send(videos.filter(v => v.title.indexOf(searchString) > -1))
-//     } else {
-//         res.send(videos)
-//     }
-// })
