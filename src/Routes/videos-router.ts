@@ -185,7 +185,6 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         res.status(400).send({errorsMessages: errors}
         )
     } else {
-
     let video = videos.find(v => v.id === +req.params.id)
     if (video) {
         video.title = title
