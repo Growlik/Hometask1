@@ -11,7 +11,7 @@ enum availableResolution  {
     P2160 = 'P2160'
 }
 
-type VideoType = {
+type videoType = {
     id: number,
     title: string,
     author: string,
@@ -22,7 +22,7 @@ type VideoType = {
     availableResolutions: availableResolution[] | null
 }
 
-export let videos: VideoType[] =[
+export let videos: videoType[] =[
     {
         id: 1,
         title: "First video",
@@ -166,10 +166,12 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
 
 // Update existing video by id with InputModel
 videosRouter.put('/:id', (req: Request, res: Response) => {
-    let minAgeRestriction = req.body.minAgeRestriction
-    let canBeDownloaded = req.body.canBeDownloaded
-    let title = req.body.title
-    let author = req.body.author
+    let minAgeRestriction: number | null = req.body.minAgeRestriction
+    let canBeDownloaded: boolean = req.body.canBeDownloaded
+    let title: string = req.body.title
+    let author: string = req.body.author
+    let publicationDate: string = req.body.publicationDate
+    let availableResolutions: availableResolution[] | null = req.body.availableResolutions
     const errors = []
     if (!author || typeof author !== 'string' || !author.trim()) {
        errors.push({
@@ -177,47 +179,46 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
            "field": "author"
        })
     }
-
-    if (errors.length) {
-        res.status(400).send({errorsMessages: errors}
-        )
-    }
     if (!title || typeof title !== 'string' || !title.trim()) {
-        res.send({
-         errorsMessages:
-             [{
-                 "message": "Incorrect format",
-                 "field": "title"
-             }]
+        errors.push
+        ({
+            "message": "Incorrect format",
+            "field": "title"
         })
     }
     if(typeof canBeDownloaded !== 'boolean') {
-        res.send({
-            errorsMessages: [{
+        errors.push
+        ({
                 "message": "Incorrect format",
-                    "field": "canBeDownloaded"
-            }]
+                "field": "canBeDownloaded"
         })
     }
-
-
     if(typeof minAgeRestriction !== 'number' || typeof minAgeRestriction !== 'object') {
-        res.send({
-            errorsMessages: [{
-                "message": "Incorrect format",
-                "field": "minAgeRestriction"
-            }]
+        errors.push
+        ({
+            "message": "Incorrect format",
+            "field": "minAgeRestriction"
         })
-        return;
     }
+    if (errors.length) {
+        res.status(400).send({errorsMessages: errors}
+        )
+    } else {
+
     let video = videos.find(v => v.id === +req.params.id)
     if (video) {
         video.title = title
+        video.author = author
+        video.canBeDownloaded = canBeDownloaded
+        video.minAgeRestriction = minAgeRestriction
+        video.availableResolutions = availableResolutions
+        video.publicationDate = publicationDate
         res.status(204).send(video)
     } else {
         res.send(404)
     }
-})
+}})
+
 
 // Delete video specified by id
 videosRouter.delete('/:id', (req: Request, res: Response) => {
