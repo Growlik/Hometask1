@@ -1,6 +1,28 @@
 import {Request, Response, Router} from 'express'
 
-export let videos =[
+enum availableResolution  {
+    P144 = 'P144',
+    P240 = 'P240',
+    P360 = 'P360',
+    P480 = 'P480',
+    P720 = 'P720',
+    P1080 = 'P1080',
+    P1440 = 'P1440',
+    P2160 = 'P2160'
+}
+
+type VideoType = {
+    id: number,
+    title: string,
+    author: string,
+    canBeDownloaded: boolean | null,
+    minAgeRestriction: number | null,
+    createdAt: string,
+    publicationDate: string,
+    availableResolutions: availableResolution[] | null
+}
+
+export let videos: VideoType[] =[
     {
         id: 1,
         title: "First video",
@@ -10,7 +32,7 @@ export let videos =[
         createdAt: "2023-06-03T16:28:42.284Z",
         publicationDate: "2023-06-03T16:28:42.284Z",
         availableResolutions: [
-            "P144"
+            availableResolution.P144
         ]
     },
     {
@@ -22,7 +44,7 @@ export let videos =[
         createdAt: "2023-06-03T16:28:42.284Z",
         publicationDate: "2023-06-03T16:28:42.284Z",
         availableResolutions: [
-            "P144", "P240"
+            availableResolution.P144, availableResolution.P240, availableResolution.P360, availableResolution.P480
         ]
     },
     {
@@ -34,7 +56,7 @@ export let videos =[
         createdAt: "2023-06-03T16:28:42.284Z",
         publicationDate: "2023-06-03T16:28:42.284Z",
         availableResolutions: [
-            "P144", "P240", "P360"
+            availableResolution.P720, availableResolution.P1080, availableResolution.P1440, availableResolution.P2160
         ]
     },
     {
@@ -46,7 +68,7 @@ export let videos =[
         createdAt: "2023-06-03T16:28:42.284Z",
         publicationDate: "2023-06-03T16:28:42.284Z",
         availableResolutions: [
-            "P144", "P240", "P360", "P480"
+            availableResolution.P2160
         ]
     }
 ]
@@ -62,15 +84,18 @@ videosRouter.get('/', (req: Request, res: Response) => {
     }
 })
 
+const validResolutions = Object.values(availableResolution) // ['P144', ...]
+
 // Create new video
 videosRouter.post ('/', (req: Request, res: Response) => {
-    let minAgeRestriction = req.body.minAgeRestriction
-    let canBeDownloaded = req.body.canBeDownloaded
-    let title = req.body.title
-    let author = req.body.author
-    let createdAt = req.body.createdAt
-    let publicationDate = req.body.publicationDate
-    let availableResolutions = req.body.availableResolutions
+    //let minAgeRestriction: number | null = req.body.minAgeRestriction
+    //let canBeDownloaded: boolean = req.body.canBeDownloaded
+    let title: string = req.body.title
+    let author: string = req.body.author
+    //let createdAt:string = req.body.createdAt
+    //let publicationDate: string = req.body.publicationDate
+    let availableResolutions: availableResolution[] | null = req.body.availableResolutions
+
     const errors = []
     if (!author || typeof author !== 'string' || !author.trim()) {
         errors.push({
@@ -84,32 +109,43 @@ videosRouter.post ('/', (req: Request, res: Response) => {
             "field": "title"
         })
     }
-    if (typeof canBeDownloaded !== 'boolean') {
-        errors.push({
-            "message": "Incorrect format",
-            "field": "canBeDownloaded"
-        })
-    }
-    if (minAgeRestriction > 0 && minAgeRestriction < 19) {
-        errors.push({
-            "message": "Incorrect format",
-            "field": "minAgeRestriction"
-        })
+    // if (typeof canBeDownloaded !== 'boolean') {
+    //     errors.push({
+    //         "message": "Incorrect format",
+    //         "field": "canBeDownloaded"
+    //     })
+    // }
+
+    // if(minAgeRestriction) {
+    //     if (minAgeRestriction > 0 && minAgeRestriction < 19) {
+    //         errors.push({
+    //             "message": "Incorrect format",
+    //             "field": "minAgeRestriction"
+    //         })
+    //     }
+    // }
+
+    if(availableResolutions) {
+        //[1, 15, P144]
     }
 
     if (errors.length > 0) {
         res.status(400).send({errorsMessages: errors})
 
     } else {
+        const today = new Date()
+        //publication date
+        let tomorrow = new Date();
+        tomorrow.setDate(today.getDate()+1);
         const newVideo = {
             id: +(new Date()),
             title: title,
             author: author,
-            canBeDownloaded: canBeDownloaded,
-            minAgeRestriction: minAgeRestriction,
-            createdAt: createdAt,
-            publicationDate: publicationDate,
-            availableResolutions: availableResolutions
+            canBeDownloaded: false,
+            minAgeRestriction: null,
+            createdAt: today.toISOString(),
+            publicationDate: tomorrow.toISOString(),
+            availableResolutions: availableResolutions || null
         }
         videos.push(newVideo)
         res.status(201).send(newVideo)
