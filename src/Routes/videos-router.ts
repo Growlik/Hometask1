@@ -116,17 +116,16 @@ videosRouter.post ('/', (req: Request, res: Response) => {
     } else {
         const today = new Date()
         //publication date
-        let tomorrow = new Date();
-        tomorrow.setDate(today.getDate()+1);
+        const tomorrow = new Date(today.setDate(today.getDate()+1));
         const newVideo = {
-            id: +(new Date()),
+            id: +today,
             title: title,
             author: author,
             canBeDownloaded: false,
             minAgeRestriction: null,
             createdAt: today.toISOString(),
             publicationDate: tomorrow.toISOString(),
-            availableResolutions: availableResolutions || null
+            availableResolutions: availableResolutions || []
         }
         videos.push(newVideo)
         res.status(201).send(newVideo)
@@ -141,7 +140,7 @@ videosRouter.get('/:id', (req: Request, res: Response) => {
     if (video) {
         res.status(200).send(video)
     } else {
-        res.send(404)
+        res.sendStatus(404)
     }
 })
 
@@ -152,7 +151,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
     let title: string = req.body.title
     let author: string = req.body.author
     let publicationDate: string = req.body.publicationDate
-    let availableResolutions: availableResolution[] | null = req.body.availableResolutions
+    let availableResolutions = req.body.availableResolutions
     const errors = []
     if (!author || typeof author !== 'string' || !author.trim() || author.length > 20) {
        errors.push({
@@ -195,7 +194,7 @@ videosRouter.put('/:id', (req: Request, res: Response) => {
         video.publicationDate = publicationDate
         res.status(204).send(video)
     } else {
-        res.send(404)
+        res.sendStatus(404)
     }
 }})
 
@@ -205,9 +204,9 @@ videosRouter.delete('/:id', (req: Request, res: Response) => {
     for (let i = 0; i < videos.length; i++) {
         if (videos[i].id === +req.params.id) {
             videos.splice(i, 1);
-            res.send(204)
+            res.sendStatus(204)
             return;
         }
     }
-    res.send(404)
+    res.sendStatus(404)
 })
