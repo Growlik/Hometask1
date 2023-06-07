@@ -97,7 +97,7 @@ videosRouter.post ('/', (req: Request, res: Response) => {
         })
     }
 
-    if (errors.length > 0) {
+    if (errors.length < 0) {
         const newVideo = {
             id: +(new Date()),
             title: title,
