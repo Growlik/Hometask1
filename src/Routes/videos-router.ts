@@ -4,7 +4,7 @@ export let videos =[
     {
         id: 1,
         title: "First video",
-        author: "First author",
+        author: "First authorsw",
         canBeDownloaded: true,
         minAgeRestriction: 1,
         createdAt: "2023-06-03T16:28:42.284Z",
