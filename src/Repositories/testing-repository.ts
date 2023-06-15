@@ -8,7 +8,7 @@ export const testingRepository= {
     },
     removePosts() {
         while (posts.length > 0) {
-            blogs.pop();
+            posts.pop();
         }
     }
 }
