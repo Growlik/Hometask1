@@ -1,6 +1,7 @@
 import {Request, Response, Router} from 'express'
 import {postsRepository} from "../Repositories/posts-repository"
 import {inputPostsValidation, inputValidationMiddleware} from "../MIddlewares/input-validation-middleware";
+import {authenticationMiddleware} from "../MIddlewares/authentication-middleware";
 export const postsRouter = Router({})
 
 type postType = {
@@ -28,17 +29,19 @@ postsRouter.get('/:id', (req: Request, res: Response) => {
 })
 //create new post
 postsRouter.post ('/',
+    authenticationMiddleware,
     inputPostsValidation.title,
     inputPostsValidation.shortDescription,
     inputPostsValidation.content,
     inputPostsValidation.blogId,
-    // inputValidationMiddleware,
+    inputValidationMiddleware,
     (req: Request, res: Response) => {
     const newPost = postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId, req.body.blogName)
     res.status(201).send(newPost)
 })
 //update existing post by id with InputModel
 postsRouter.put('/:id',
+    authenticationMiddleware,
     inputPostsValidation.title,
     inputPostsValidation.shortDescription,
     inputPostsValidation.content,

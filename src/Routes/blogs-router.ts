@@ -11,7 +11,7 @@ type blogType = {
     websiteUrl: string
 }
 //Return all blogs
-blogsRouter.get('/', authenticationMiddleware, (req: Request, res: Response) => {
+blogsRouter.get('/', (req: Request, res: Response) => {
     const foundBlogs = blogsRepository.findBlogs()
     res.status(200).send(foundBlogs)
 })
@@ -26,6 +26,7 @@ blogsRouter.get('/:id', (req: Request, res: Response) => {
 })
 //Create new post
 blogsRouter.post ('/',
+    authenticationMiddleware,
     inputBlogsValidation.name,
     inputBlogsValidation.description,
     inputBlogsValidation.websiteUrl,
@@ -36,6 +37,7 @@ blogsRouter.post ('/',
 })
 //Update existing blog by id with InputModel
 blogsRouter.put('/:id',
+    authenticationMiddleware,
     inputBlogsValidation.name,
     inputBlogsValidation.description,
     inputBlogsValidation.websiteUrl,
