@@ -1,6 +1,6 @@
 export const usersRepository = [
     {
         id: 1,
-        loginPass: 'Basic YWRtaW46cXdlcnR5Cg=='
+        loginPass: 'Basic YWRtaW46cXdlcnR5'
     }
 ]
