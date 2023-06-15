@@ -1,6 +1,7 @@
 import {Request, Response, Router} from 'express'
 import {blogsRepository} from "../Repositories/blogs-repository"
 import {inputBlogsValidation, inputValidationMiddleware} from "../MIddlewares/input-validation-middleware";
+import {authenticationMiddleware} from "../MIddlewares/authentication-middleware";
 export const blogsRouter = Router({})
 
 type blogType = {
@@ -10,7 +11,7 @@ type blogType = {
     websiteUrl: string
 }
 //Return all blogs
-blogsRouter.get('/', (req: Request, res: Response) => {
+blogsRouter.get('/', authenticationMiddleware, (req: Request, res: Response) => {
     const foundBlogs = blogsRepository.findBlogs()
     res.status(200).send(foundBlogs)
 })
