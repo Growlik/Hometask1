@@ -57,7 +57,7 @@ postsRouter.put('/:id',
     }
 })
 //delete post specified by id
-postsRouter.delete('/:id', (req: Request, res: Response) => {
+postsRouter.delete('/:id', authenticationMiddleware, (req: Request, res: Response) => {
     const isRemoved = postsRepository.removePost(+req.params.id)
     if (isRemoved) {
         res.sendStatus(204)
