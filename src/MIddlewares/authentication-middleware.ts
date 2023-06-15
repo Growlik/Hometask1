@@ -13,5 +13,4 @@ import {usersRepository} from "../Repositories/users-repository";
 export const authenticationMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization']
     console.log(authHeader)
-    next;
 }
