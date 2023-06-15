@@ -8,7 +8,7 @@ export const inputBlogsValidation = {
     description: body('description')
         .trim().isString().withMessage('Must be string')
         .isLength({min: 1, max: 500}).withMessage('Length should be from 1 to 500 symbols'),
-    websiteUrl: body('websiteUrls')
+    websiteUrl: body('websiteUrl')
         .isURL().withMessage('Must be URL')
 }
 export const inputPostsValidation = {
