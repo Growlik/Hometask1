@@ -1,19 +1,21 @@
+import {blogs, blogsRepository} from "./blogs-repository";
+
 export const posts =[
     {
         id: "1",
         title: "first title",
         shortDescription: "first description",
         content: "first content",
-        blogId: "first Id",
-        blogName: "first blog",
+        blogId: "",
+        blogName: ""
     },
     {
         id: "2",
         title: "second title",
         shortDescription: "second description",
         content: "second content",
-        blogId: "second Id",
-        blogName: "second blog"
+        blogId: "",
+        blogName: ""
     }
 ]
 
@@ -24,17 +26,21 @@ export const postsRepository = {
     findPostById(id: string) {
         return posts.find(p => p.id === id);
     },
-    createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
+    createPost(title: string, shortDescription: string, content: string, blogId: string) {
+        const relatedBlog = blogsRepository.findBlogById(blogId)
+        if (!relatedBlog) {
+            return { success: false, error: Error }
+        }
         const newPost = {
             id: (+(new Date())).toString(),
             title: title,
             shortDescription: shortDescription,
             content: content,
             blogId: blogId,
-            blogName: blogName
+            blogName: relatedBlog.name
         }
         posts.push(newPost)
-        return newPost
+        return { success: true, result: newPost}
     },
     updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) {
         let post = posts.find(b => b.id === id)
