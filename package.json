@@ -1,5 +1,5 @@
 {
-  "name": "Hometask1",
+  "name": "Hometask2",
   "version": "1.0.0",
   "main": "src/index.ts",
   "license": "MIT",
@@ -11,17 +11,18 @@
     "serveo": "ssh -R 80:localhost:5001 serveo.net"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1"
   },
   "devDependencies": {
+    "@types/express": "^4.17.17",
     "@types/jest": "^29.5.1",
+    "@types/node": "^20.2.5",
     "@types/supertest": "^2.0.12",
     "jest": "^29.5.0",
+    "nodemon": "^2.0.22",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.0",
-    "@types/express": "^4.17.17",
-    "@types/node": "^20.2.5",
-    "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   }

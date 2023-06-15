@@ -1,13 +1,11 @@
 import {Request, Response, Router} from 'express'
 
-import {videos} from "./videos-router";
-
+import {testingRepository} from "../Repositories/testing-repository";
 export const testingRouter = Router({})
 
-//deleting all the videos
+//deleting all data
 testingRouter.delete('/all-data', (req: Request, res: Response) => {
-    while(videos.length > 0) {
-        videos.pop();
-    }
+    testingRepository.removeBlogs()
+    testingRepository.removePosts()
     res.sendStatus(204)
 })
