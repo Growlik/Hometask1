@@ -1,6 +1,6 @@
 export const posts =[
     {
-        id: 1,
+        id: "1",
         title: "first title",
         shortDescription: "first description",
         content: "first content",
@@ -8,7 +8,7 @@ export const posts =[
         blogName: "first blog",
     },
     {
-        id: 2,
+        id: "2",
         title: "second title",
         shortDescription: "second description",
         content: "second content",
@@ -21,12 +21,12 @@ export const postsRepository = {
     findPosts() {
         return posts;
     },
-    findPostById(id: number) {
+    findPostById(id: string) {
         return posts.find(p => p.id === id);
     },
     createPost(title: string, shortDescription: string, content: string, blogId: string, blogName: string) {
         const newPost = {
-            id: +(new Date()),
+            id: (+(new Date())).toString(),
             title: title,
             shortDescription: shortDescription,
             content: content,
@@ -36,7 +36,7 @@ export const postsRepository = {
         posts.push(newPost)
         return newPost
     },
-    updatePost(id: number, title: string, shortDescription: string, content: string, blogId: string) {
+    updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) {
         let post = posts.find(b => b.id === id)
         if (post) {
             post.title = title
@@ -48,7 +48,7 @@ export const postsRepository = {
             return false;
         }
     },
-    removePost(id:number) {
+    removePost(id:string) {
         for (let i = 0; i < posts.length; i++) {
             if (posts[i].id === id) {
                 posts.splice(i, 1);

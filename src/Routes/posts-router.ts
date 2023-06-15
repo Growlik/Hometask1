@@ -20,7 +20,7 @@ postsRouter.get('/', (req: Request, res: Response) => {
 })
 //return post by id
 postsRouter.get('/:id', (req: Request, res: Response) => {
-    let post = postsRepository.findPostById(+req.params.id)
+    let post = postsRepository.findPostById(req.params.id)
     if (post) {
         res.status(200).send(post)
     } else {
@@ -48,9 +48,9 @@ postsRouter.put('/:id',
     inputPostsValidation.blogId,
     // inputValidationMiddleware,
     (req: Request, res: Response) => {
-    const isUpdated = postsRepository.updatePost(+req.params.id, req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
+    const isUpdated = postsRepository.updatePost(req.params.id, req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
     if (isUpdated) {
-        const post = postsRepository.findPostById(+req.params.id)
+        const post = postsRepository.findPostById(req.params.id)
         res.status(204).send(post)
     } else {
         res.sendStatus(404)
@@ -58,7 +58,7 @@ postsRouter.put('/:id',
 })
 //delete post specified by id
 postsRouter.delete('/:id', authenticationMiddleware, (req: Request, res: Response) => {
-    const isRemoved = postsRepository.removePost(+req.params.id)
+    const isRemoved = postsRepository.removePost(req.params.id)
     if (isRemoved) {
         res.sendStatus(204)
     } else {
