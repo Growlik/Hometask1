@@ -2,12 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.testingRouter = void 0;
 const express_1 = require("express");
-const videos_router_1 = require("./videos-router");
+const testing_repository_1 = require("../Repositories/testing-repository");
 exports.testingRouter = (0, express_1.Router)({});
-//deleting all the videos
+//deleting all data
 exports.testingRouter.delete('/all-data', (req, res) => {
-    while (videos_router_1.videos.length > 0) {
-        videos_router_1.videos.pop();
-    }
-    res.send(204);
+    testing_repository_1.testingRepository.removeBlogs();
+    testing_repository_1.testingRepository.removePosts();
+    res.sendStatus(204);
 });

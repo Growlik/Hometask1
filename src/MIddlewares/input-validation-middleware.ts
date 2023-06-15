@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from "express";
-import {body, ValidationError, validationResult} from "express-validator";
+import {body, validationResult} from "express-validator";
 
 export const inputBlogsValidation = {
     name: body('name')
@@ -25,14 +25,32 @@ export const inputPostsValidation = {
         .trim().isString().withMessage('Must be string')
         .isLength({min: 1}).withMessage('Length should be more than 1 symbol')
 }
-const errorFormat = ({msg} : ValidationError) => {
-    return {message: msg}
-}
+// const errorFormat = (error: FieldValidationError)=> {
+//     console.log(error)
+//     return {
+//         message: error.msg,
+//         //@ts-ignore
+//         field: error.path
+//     }
+// }
 export const inputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req).formatWith(errorFormat)
-    if (!errors.isEmpty()){
-        res.status(400).json({errors: errors.array()})
+    const errors = validationResult(req).array({onlyFirstError: true})//.formatWith(errorFormat)
+    // if (!errors.isEmpty()){
+     if (errors.length > 0 ){
+        const sanitizedErrors = errors.map((error)=>{
+            if (error.type === "field") {
+                return {message: error.msg,
+                 field: error.path
+                }
+            }else {
+                return null;
+            }
+        })
+        // res.status(400).json({errors: errors.array()})
+        res.status(400).json({errors: sanitizedErrors})
     } else {
         next()
     }
 }
+
+

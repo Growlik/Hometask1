@@ -5,7 +5,7 @@ export const posts =[
         shortDescription: "first description",
         content: "first content",
         blogId: "first Id",
-        blogName: "first blog"
+        blogName: "first blog",
     },
     {
         id: 2,
