@@ -17,7 +17,7 @@ blogsRouter.get('/', (req: Request, res: Response) => {
 })
 //Return blog by id
 blogsRouter.get('/:id', (req: Request, res: Response) => {
-    let blog = blogsRepository.findBlogById(+req.params.id)
+    let blog = blogsRepository.findBlogById(req.params.id)
     if (blog) {
         res.status(200).send(blog)
     } else {
@@ -43,17 +43,18 @@ blogsRouter.put('/:id',
     inputBlogsValidation.websiteUrl,
     inputValidationMiddleware,
     (req: Request, res: Response) => {
-    const isUpdated = blogsRepository.updateBlog(+req.params.id, req.body.name, req.body.description, req.body.websiteUrl)
+    const isUpdated = blogsRepository.updateBlog(req.params.id, req.body.name, req.body.description, req.body.websiteUrl)
     if (isUpdated) {
-        const blog = blogsRepository.findBlogById(+req.params.id)
+        const blog = blogsRepository.findBlogById(req.params.id)
         res.status(204).send(blog)
     } else {
         res.sendStatus(404)
     }
 })
 //Delete blog specified by id
-blogsRouter.delete('/:id', authenticationMiddleware, (req: Request, res: Response) => {
-    const isRemoved = blogsRepository.removeBlog(+req.params.id)
+blogsRouter.delete('/:id',
+    authenticationMiddleware, (req: Request, res: Response) => {
+    const isRemoved = blogsRepository.removeBlog(req.params.id)
     if (isRemoved) {
         res.sendStatus(204)
     } else {
