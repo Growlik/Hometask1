@@ -40,7 +40,7 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
         const sanitizedErrors = errors.map((error)=>{
             if (error.type === "field") {
                 return {message: error.msg,
-                 field: error.path
+                        field: error.path
                 }
             }else {
                 return null;
