@@ -25,8 +25,8 @@ export const inputPostsValidation = {
         .trim().isString().withMessage('Must be string')
         .isLength({min: 1}).withMessage('Length should be more than 1 symbol')
 }
-const errorFormat = ({msg, field} : ValidationError) => {
-    return {message: msg, field: field}
+const errorFormat = ({msg} : ValidationError) => {
+    return {message: msg}
 }
 export const inputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req).formatWith(errorFormat)
