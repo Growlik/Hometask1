@@ -47,7 +47,7 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
             }
         })
         // res.status(400).json({errors: errors.array()})
-        res.status(400).json({errorsMessages: sanitizedErrors})
+        res.status(400).send({errorsMessages: sanitizedErrors})
     } else {
         next()
     }
