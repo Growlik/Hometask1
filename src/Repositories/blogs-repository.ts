@@ -14,8 +14,8 @@ export const blogsRepository = {
     findBlogs() {
         return blogs;
     },
-    findBlogById(id: number) {
-        return blogs.find(b => b.id === id);
+    findBlogById(id: string) {
+        return blogs.find(b => b.id.toString() === id);
     },
     createBlog(name: string, description: string, websiteUrl: string) {
         const newBlog = {
