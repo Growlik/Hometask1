@@ -1,5 +1,6 @@
 import {NextFunction, Request, Response} from "express";
 import {body, validationResult} from "express-validator";
+import {blogsRepository} from "../Repositories/blogs-repository";
 
 export const inputBlogsValidation = {
     name: body('name')
@@ -24,6 +25,12 @@ export const inputPostsValidation = {
     blogId: body('blogId')
         .trim().isString().withMessage('Must be string')
         .isLength({min: 1}).withMessage('Length should be more than 1 symbol')
+        .custom(value => { if (!blogsRepository.findBlogById(value)) {
+            throw new Error('Blog is not found')
+} else {
+            return true;
+        }
+})
 }
 
 export const inputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {

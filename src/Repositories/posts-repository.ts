@@ -1,4 +1,4 @@
-import {blogs, blogsRepository} from "./blogs-repository";
+import {blogsRepository} from "./blogs-repository";
 
 export const posts =[
     {
@@ -6,16 +6,16 @@ export const posts =[
         title: "first title",
         shortDescription: "first description",
         content: "first content",
-        blogId: "",
-        blogName: ""
+        blogId: "1",
+        blogName: "firstBlog"
     },
     {
         id: "2",
         title: "second title",
         shortDescription: "second description",
         content: "second content",
-        blogId: "",
-        blogName: ""
+        blogId: "2",
+        blogName: "secondBlog"
     }
 ]
 
@@ -32,7 +32,7 @@ export const postsRepository = {
             return { success: false, error: Error }
         }
         const newPost = {
-            id: (+(new Date())).toString(),
+            id: Date.now().toString(),
             title: title,
             shortDescription: shortDescription,
             content: content,

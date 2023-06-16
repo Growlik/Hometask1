@@ -4,15 +4,6 @@ import {inputPostsValidation, inputValidationMiddleware} from "../MIddlewares/in
 import {authenticationMiddleware} from "../MIddlewares/authentication-middleware";
 export const postsRouter = Router({})
 
-type postType = {
-    id: string,
-    title: string,
-    shortDescription: string,
-    content: string,
-    blogId: string,
-    blogName: string
-}
-
 //return all posts
 postsRouter.get('/', (req: Request, res: Response) => {
     const foundPosts = postsRepository.findPosts()
@@ -36,7 +27,7 @@ postsRouter.post ('/',
     inputPostsValidation.blogId,
     inputValidationMiddleware,
     (req: Request, res: Response) => {
-    const newPost = postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId, req.body.blogName)
+    const newPost = postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
     res.status(201).send(newPost)
 })
 //update existing post by id with InputModel
