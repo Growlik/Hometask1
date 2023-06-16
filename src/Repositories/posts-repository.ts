@@ -29,7 +29,7 @@ export const postsRepository = {
     createPost(title: string, shortDescription: string, content: string, blogId: string) {
         const relatedBlog = blogsRepository.findBlogById(blogId)
         if (!relatedBlog) {
-            return { success: false, error: Error }
+            return;
         }
         const newPost = {
             id: Date.now().toString(),
@@ -40,7 +40,7 @@ export const postsRepository = {
             blogName: relatedBlog.name
         }
         posts.push(newPost)
-        return { success: true, result: newPost}
+        return newPost;
     },
     updatePost(id: string, title: string, shortDescription: string, content: string, blogId: string) {
         let post = posts.find(b => b.id === id)
