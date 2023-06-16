@@ -4,6 +4,7 @@ import {inputPostsValidation, inputValidationMiddleware} from "../MIddlewares/in
 import {authenticationMiddleware} from "../MIddlewares/authentication-middleware";
 export const postsRouter = Router({})
 
+
 //return all posts
 postsRouter.get('/', (req: Request, res: Response) => {
     const foundPosts = postsRepository.findPosts()
